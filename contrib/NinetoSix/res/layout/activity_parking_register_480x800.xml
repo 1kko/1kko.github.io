@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/bg_parking"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/roof_completed_green_text" />
+
+    <!--
+         <TextView
+        android:id="@+id/tv_current_date_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="N/A"
+        android:textSize="20dp"
+        android:textStyle="italic" />
+    -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <com.betterofficelife.ninetosix.wheel.widget.WheelView
+            android:id="@+id/parkingPlace"
+            android:layout_width="160dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_weight="0.2"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_current_date_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="마지막 등록일 : "
+            android:layout_weight="0.2"
+            android:textSize="15dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/btn_parking_position_register"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+             android:layout_weight="0.2"
+            android:background="@drawable/parking_location_button"
+            android:text="등록"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</LinearLayout>

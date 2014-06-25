@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/bg_parking"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/roof_completed_green_text" />
+
+    <!--
+         <TextView
+        android:id="@+id/tv_current_date_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="N/A"
+        android:textSize="20dp"
+        android:textStyle="italic" />
+    -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="380dp"
+        android:orientation="vertical" >
+
+        <com.betterofficelife.ninetosix.wheel.widget.WheelView
+            android:id="@+id/parkingPlace"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="80dp"
+            android:layout_marginTop="80dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_current_date_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="마지막 등록일 :               "
+            android:textSize="20dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_parking_position_register"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/parking_location_button"
+        android:text="등록"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

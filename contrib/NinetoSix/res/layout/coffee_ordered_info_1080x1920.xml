@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/orderedList"
+        android:layout_width="fill_parent"
+        android:layout_height="350dp" />
+
+    <!--
+         <TextView
+        android:id="@+id/emptyResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="150dp"
+        android:text="@string/empty_list" />
+    -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="총 주문 개수 :" />
+
+            <TextView
+                android:id="@+id/tv_total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="235dp"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/temp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="0"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/sharedButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/coffee_order_sending_button_color"
+            android:text="주문내역 보내기"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</LinearLayout>

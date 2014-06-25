@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.betterofficelife.ninetosix"
+    android:versionCode="3"
+    android:versionName="1.0.7" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon_application_newsquare3"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.betterofficelife.ninetosix.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="MainActivity"
+            android:screenOrientation="portrait"
+            android:splitMotionEvents="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ParkingRegisterActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="DinnerMenuActivity"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity android:name="DinnerRoomActivity" >
+        </activity>
+        <activity
+            android:name="TagViewer"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="application/com.betterofficelife.ninetosix" />
+            </intent-filter>
+        </activity>
+        <activity android:name="CafeteriaActivity" >
+        </activity>
+        <activity android:name="com.betterofficelife.ninetosix.coffeeorder.tabs.Order" >
+        </activity>
+        <activity android:name="com.betterofficelife.ninetosix.coffeeorder.tabs.Coffee" >
+        </activity>
+        <activity android:name="com.betterofficelife.ninetosix.coffeeorder.tabs.Drink" >
+        </activity>
+        <activity android:name="com.betterofficelife.ninetosix.coffeeorder.tabs.Bread" >
+        </activity>
+        <activity android:name="com.betterofficelife.ninetosix.coffeeorder.tabs.Tea" >
+        </activity>
+        <activity android:name="MapPOIDetailActivity" >
+        </activity>
+        <activity
+            android:name="DaumMapActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity="" >
+        </activity>
+        <activity
+            android:name="InfoActivity"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+    </application>
+
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+
+</manifest>

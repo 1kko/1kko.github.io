@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nine to Six</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="parking">주차 위치</string>
+    <string name="image">Thumbnail</string>
+    <string name="str_done">완료</string>
+    <string name="empty_list">주문한 내역이 없습니다.</string>
+    <string name="product_version">Nine to Six</string>
+        <string name="product_version_1">버전 : 1.0.7</string>
+    <string name="product_by1">Producer : 강종석 </string>
+    <string name="product_by1_1">[jongster@ahnlab.com]</string>
+    <string name="product_by2">19기 연수생 이형욱</string>
+    <string name="product_by2_1">[lhu114@nate.com]</string>
+    <string name="product_by3">19기 연수생 서지우</string>
+    <string name="product_by3_1">[seodasom54@gmail.com]</string>
+    <string name="product_by4">ⓒ 융합제품개발실</string>
+
+</resources>
