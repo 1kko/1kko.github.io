@@ -28,6 +28,11 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<script type="text/x-handlebars" id="loading">
+	<div class="container">
+	<h1>Loading</h1>
+	</div>
+</script>
 
 <script type="text/x-handlebars">
 	<div class="container">
@@ -51,12 +56,12 @@
 			{{outlet}}
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<button {{ action "menunow" }} class="btn btn-warning btn-block" type="button" id="btn_add">아 배고파!</button>
 			<h1>Menu</h1>
 			<hr>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<!--th>idx</th-->
 						<th>Date</th>
 						<th>Time</th>
 						<th>Menu</th>
@@ -65,7 +70,6 @@
 				<tbody>
 					{{#each}}
 					<tr>
-						<!--td>{{#link-to 'menu' this}}{{_ID}}{{/link-to}}</td-->
 						<td>{{#link-to 'menu' this}}{{format-date start_date}}{{/link-to}}</td>
 						<td>{{#link-to 'menu' this}}{{start_time}}{{/link-to}}</td>
 						<td>{{#link-to 'menu' this}}{{subject}}{{/link-to}}</td>
@@ -230,8 +234,11 @@
 			<li>GitHub Pages <small><a href="https://pages.github.com/">https://pages.github.com/</a></small></li>
 		</ul>
 
-		<a href="menu/csv_export_utf8.csv">[주간메뉴표 csv 다운로드]</a>
-
+		<h3>기타 자료</h3>
+		<ul>
+			<li>	<a href="menu/csv_export_utf8.csv">[주간메뉴표 csv 다운로드]</a></li>
+			<li>관리자의 특별한 사정이 없는 한 매주 토요일 업데이트 됩니다</li>
+		</ul>
 	</div>
 </script>
 

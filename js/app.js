@@ -39,6 +39,11 @@ var MenusData=getMenusData("menu/csv_export_utf8.csv");
 App.MenusRoute = Ember.Route.extend({
 	model: function() {
 		return MenusData;
+	},
+	actions: {
+		menunow: function () {
+			this.transitionTo('menu',date2itemno());
+		}
 	}
 });
 
@@ -59,7 +64,6 @@ function getMenusData(Url) {
 	var csv= showGetResult(Url);
 	var retval=CSV2JSON(csv);
 	var jsondata=$.parseJSON(retval);
-	//console.debug(jsondata);
 	return jsondata;
 }
 
@@ -222,4 +226,17 @@ function showGetResult( Url )
 		}
 	});
 	return result;
+}
+
+function date2itemno()
+{
+	var now=new Date();
+	var week = new Array(99, 1, 4, 7, 10, 13, 99);
+	var base=(week[now.getDay()]);
+
+	var hour=now.getHours();
+	if (hour >= 9) { base+=1; };
+	if (hour >=13) { base+=1; };
+	if (base >=99) { base=1; };
+	return String(base);
 }
