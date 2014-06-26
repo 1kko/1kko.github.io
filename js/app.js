@@ -3,7 +3,7 @@ App = Ember.Application.create();
 App.Router.map(function()
 {
 	this.resource('menus', function() {
-		this.resource('menu', { path: ':_ID'});
+		this.resource('menu', { path: ':itemno'});
 	});
 	this.resource('cafe');
 	this.resource('about');
@@ -28,13 +28,13 @@ App.NavigationView = Ember.View.extend({
 	})
 });
 
-var MenusData=getMenusData("menu/csv_export_utf8.csv");
-
 App.MenusView=Ember.View.extend({
 	click: function () {
 		$("html, body").animate({ scrollTop: 0}, 600);
 	}
-})
+});
+
+var MenusData=getMenusData("menu/csv_export_utf8.csv");
 
 App.MenusRoute = Ember.Route.extend({
 	model: function() {
@@ -44,7 +44,7 @@ App.MenusRoute = Ember.Route.extend({
 
 App.MenuRoute = Ember.Route.extend({
 	model: function(params) {
-		return MenusData.findBy('_ID', params._ID);
+		return MenusData.findBy('itemno', params.itemno);
 	}
 });
 
@@ -59,10 +59,9 @@ function getMenusData(Url) {
 	var csv= showGetResult(Url);
 	var retval=CSV2JSON(csv);
 	var jsondata=$.parseJSON(retval);
-	console.debug(jsondata);
+	//console.debug(jsondata);
 	return jsondata;
 }
-
 
 App.CafeController = Ember.Controller.extend({
 	selectedMenuCount: null,
@@ -190,7 +189,7 @@ function CSV2JSON(csv) {
 	var array = CSVToArray(csv);
 	var objArray = [];
 	for (var i = 1; i < array.length-1; i++) {
-		objArray[i - 1] = {'_ID':i};
+		objArray[i - 1] = {'itemno':String(i)};
 		for (var k = 0; k < array[0].length && k < array[i].length; k++) {
 			var key = array[0][k];
 			objArray[i - 1][key] = array[i][k]
