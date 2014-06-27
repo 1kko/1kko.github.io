@@ -228,10 +228,11 @@
 			<li>Ember.js <small><a href="http://emberjs.com/">http://emberjs.com/</a></small></li>
 			<li>Bootstrap 3 <small><a href="http://getbootstrap.com/">http://getbootstrap.com/</a></small></li>
 			<li>Real Favicon Generator <small><a href="http://realfavicongenerator.net/">http://realfavicongenerator.net</a></small></li>
-			<li>CDNJS <small><a href="http://www.cdnjs.com/">http://www.cdnjs.com/</a></small></li>
 			<li>Bootswatch <small><a href="http://bootswatch.com/">http://bootswatch.com/</a></small></li>
 			<li>CSV2JSON javascript <small><a href="http://www.bennadel.com/blog/1504-Ask-Ben-Parsing-CSV-Strings-With-Javascript-Exec-Regular-Expression-Command.htm">http://www.bennadel.com</a></small></li>
 			<li>GitHub Pages <small><a href="https://pages.github.com/">https://pages.github.com/</a></small></li>
+			<li>HTML Minimizer <small><a href="http://www.hightools.net/minimizer.php">http://www.hightools.net/minimizer.php</a></small></li>
+			<li>basket.js <small><a href="http://addyosmani.github.io/basket.js/">http://addyosmani.github.io/basket.js/</a></small></li>
 		</ul>
 
 		<h3>기타 자료</h3>
@@ -242,13 +243,27 @@
 	</div>
 </script>
 
+<!--
 
-
+http://www.hightools.net/minimizer.php
+-->
+<script src="js/libs/basket.full.min.js"></script>
+<script>
+	basket.require(
+		{ url: 'js/libs/jquery-1.11.0.min.js', expire: 168 },
+		{ url: 'js/libs/handlebars-1.1.2.min.js', expire: 168},
+		{ url: 'js/libs/ember-1.5.1.min.js', expire: 168},
+		{ url: 'js/app.min.js', skipCache: true },
+		{ url: 'js/libs/bootstrap.min.js', expire: 168 }
+	);
+</script>
+<!--
 <script src="js/libs/jquery-1.11.0.min.js"></script>
 <script src="js/libs/handlebars-1.1.2.min.js"></script>
 <script src="js/libs/ember-1.5.1.min.js"></script>
 <script src="js/app.min.js"></script>
 <script src="js/libs/bootstrap.min.js"></script>
+-->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
