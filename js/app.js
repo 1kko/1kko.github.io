@@ -6,6 +6,7 @@ App.Router.map(function()
 		this.resource('menu', { path: ':itemno'});
 	});
 	this.resource('cafe');
+	this.resource('parking');
 	this.resource('about');
 	this.resource('eatout');
 });
@@ -132,6 +133,83 @@ App.OrderComponent=Ember.Component.extend({
 	}
 });
 
+var currentPP=getCookie("parkingplace");
+
+App.ParkingController = Ember.Controller.extend({
+	selectedParkingPlace: function () { 
+		var parkingplace= getCookie("parkingplace");
+		if (parkingplace=='') { return null };
+		return parkingplace;
+	},
+	parkingPlaces: [
+		{ label: "Reset", value: null},
+		{ label: "B2", value: "B2"},
+		{ label: "B3", value: "B3"},
+		{ label: "B4", value: "B4"}
+	],
+	actions: {
+		setParkingPlace: function() {
+			var selectedParkingPlace=this.get('selectedParkingPlace.value');
+			if (selectedParkingPlace != null) {
+				var ParkingPlace=({parkingplace:selectedParkingPlace});
+				App.ParkingComponent.create(ParkingPlace).appendTo($('#parkingTable'));
+				console.debug(selectedParkingPlace);
+				setCookie("parkingplace", selectedParkingPlace, 2, "926.1kko.com");
+			} else {
+				delCookie("parkingplace");
+			}
+		}
+	},
+	current: currentPP
+});
+
+
+App.ParkingComponent=Ember.Component.extend({
+	templateName: "components/Parking",
+	didInsertElement: function(){
+		console.debug('didInsertElement - ParkingComponent');
+	},
+	actions: {
+		remove: function() {
+			this.remove();
+		}
+	}
+});
+
+
+function getCookie( name ) {
+	var start = document.cookie.indexOf( name + "=" );
+	var len = start + name.length + 1;
+	if ( ( !start ) && ( name != document.cookie.substring( 0, name.length ) ) ) {
+		return null;
+	}
+	if ( start == -1 ) return null;
+	var end = document.cookie.indexOf( ';', len );
+	if ( end == -1 ) end = document.cookie.length;
+	return unescape( document.cookie.substring( len, end ) );
+}
+ 
+function setCookie( name, value, expires, path, domain, secure ) {
+	var today = new Date();
+	today.setTime( today.getTime() );
+	if ( expires ) {
+		expires = expires * 1000 * 60 * 60 * 24;
+	}
+	var expires_date = new Date( today.getTime() + (expires) );
+	document.cookie = name+'='+escape( value ) +
+		( ( expires ) ? ';expires='+expires_date.toGMTString() : '' ) + //expires.toGMTString()
+		( ( path ) ? ';path=' + path : '' ) +
+		( ( domain ) ? ';domain=' + domain : '' ) +
+		( ( secure ) ? ';secure' : '' );
+}
+ 
+function delCookie( name, path, domain ) {
+	if ( getCookie( name ) ) document.cookie = name + '=' +
+			( ( path ) ? ';path=' + path : '') +
+			( ( domain ) ? ';domain=' + domain : '' ) +
+			';expires=Thu, 01-Jan-1970 00:00:01 GMT';
+}
+
 // Source: http://www.bennadel.com/blog/1504-Ask-Ben-Parsing-CSV-Strings-With-Javascript-Exec-Regular-Expression-Command.htm
 // This will parse a delimited string into an array of
 // arrays. The default delimiter is the comma, but this
@@ -230,13 +308,13 @@ function showGetResult( Url )
 
 function date2itemno()
 {
-	var now=new Date();
+	var now = new Date();
 	var week = new Array(99, 1, 4, 7, 10, 13, 99);
-	var base=(week[now.getDay()]);
+	var base = (week[now.getDay()]);
 
-	var hour=now.getHours();
+	var hour= now.getHours();
 	if (hour >= 9) { base+=1; };
 	if (hour >=13) { base+=1; };
-	if (base >=99) { base=1; };
+	if (base >=16) { base=1; };
 	return String(base);
 }
