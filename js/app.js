@@ -31,6 +31,7 @@ App.NavigationView = Ember.View.extend({
 
 App.MenusView=Ember.View.extend({
 	click: function () {
+		displayGoogleAds();
 		$("html, body").animate({ scrollTop: 0}, 600);
 	}
 });
@@ -45,7 +46,7 @@ App.MenusRoute = Ember.Route.extend({
 		menunow: function () {
 			this.transitionTo('menu',date2itemno());
 		}
-	}
+	},
 });
 
 App.MenuRoute = Ember.Route.extend({
@@ -66,7 +67,7 @@ function getMenusData(Url) {
 	var retval=CSV2JSON(csv);
 	var jsondata=$.parseJSON(retval);
 	return jsondata;
-}
+};
 
 App.CafeController = Ember.Controller.extend({
 	selectedMenuCount: null,
@@ -317,4 +318,10 @@ function date2itemno()
 	if (hour >=13) { base+=1; };
 	if (base >=16) { base=1; };
 	return String(base);
+}
+
+function displayGoogleAds() {
+	$('ins').each(function(){
+		(adsbygoogle = window.adsbygoogle || []).push({});	
+	});
 }
