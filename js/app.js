@@ -31,7 +31,6 @@ App.NavigationView = Ember.View.extend({
 
 App.MenusView=Ember.View.extend({
 	click: function () {
-		displayGoogleAds();
 		$("html, body").animate({ scrollTop: 0}, 600);
 	}
 });
@@ -322,6 +321,6 @@ function date2itemno()
 
 function displayGoogleAds() {
 	$('ins').each(function(){
-		(adsbygoogle = window.adsbygoogle || []).push({});	
+		(adsbygoogle = window.adsbygoogle || []).push({});
 	});
 }
