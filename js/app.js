@@ -11,15 +11,6 @@ App.Router.map(function()
 	this.resource('eatout');
 });
 
-App.Router.reopen({
-	notifyGoogleAnalytics: function() {
-		return ga('send', 'pageview', {
-			'page': this.get('url'),
-		       'title': this.get('url'),
-		});
-	}.on('didTranslation')
-});
-
 App.IndexRoute=Ember.Route.extend({
 	beforeModel: function() {
 		this.transitionTo('menus');
