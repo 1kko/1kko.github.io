@@ -107,7 +107,8 @@ App.CafeController = Ember.Controller.extend({
 		{ label: "사과쥬스", value: "사과쥬스" },
 		{ label: "자몽쥬스", value: "자몽쥬스" },
 		{ label: "-------", value: null },
-		{ label: "청포도에이드", value: "청포도에이드 "}
+		{ label: "블루레몬에이드", value: "블루레몬에이드 "}
+		{ label: "핑크레몬에이드", value: "핑크레몬에이드 "}
 	],
 	actions: {
 		addCurrentOrder: function() {
