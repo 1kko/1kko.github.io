@@ -94,10 +94,12 @@
 	<pre>{{description}}</pre>
 </script>
 
+
+
 <script type="text/x-handlebars" id="cafe">
 	<div class="row">
 		<div class="col-xs-6">
-			<h1>Cafe <small>08:00~18:00 <a href="ladder.html" class="btn btn-xs btn-info">Ladder Game</a></small></h1>
+			<h1>Cafe <small>08:00~18:00 {{#link-to "laddergame"}}Ladder Game{{/link-to}}</small></h1>
 		</div>
 	</div>
 	<hr>
@@ -124,6 +126,47 @@
 			<button {{action "remove"}}> <span class="glyphicon glyphicon-remove"></span></button>
 		</div>
 	</li>
+</script>
+
+<script type="text/x-handlebars" id="laddergame">
+	<h1>사다리 타기</h1>
+	<hr>
+	<div class="row" id="div_step1">
+		<div class="col-xs-2">인원</div>
+		<div class="col-xs-6">
+			<select id="sel_num" class="form-control col-xs-4">
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4" selected>4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
+				<option value="16">16</option>
+				<option value="17">17</option>
+				<option value="18">18</option>
+				<option value="19">19</option>
+				<option value="20">20</option>
+			</select>
+		</div>
+		<div class="col-xs-1">명</div>
+		<div class="col-xs-1">
+			<input value="만들기" onclick="Yl.init();" class="btn btn-primary">
+		</div>
+	</div>
+
+	<div class="row" id="div_step2" style="display:none;">
+		<input class="btn btn-primary col-xs-12" value="시작" onclick="Yl.create();">
+	</div>
+
+	<div id="div_body" class="col-xs-12"></div>
 </script>
 
 <script type="text/x-handlebars" id="parking">
@@ -298,7 +341,7 @@
 			<li>basket.js <small><a href="http://addyosmani.github.io/basket.js/">http://addyosmani.github.io/basket.js/</a></small></li>
 			<li>DnsEver <small><a href="http://www.dnsever.com" target="dnsever">http://www.dnsever.com</a></small></li>
 			<li>pace.js <small><a href="https://github.com/HubSpot/pace">https://github.com/HubSpot/pace</a></small></li>
-			<li>ladder.js <small><a href="http://aircon1004.com/data/bbs/board.php?bo_table=pds1&wr_id=214">인터넷 검색후 찾음</a></small></li>
+			<li>ladder.js <small><a href="http://aircon1004.com/data/bbs/board.php?bo_table=pds1&wr_id=214">그냥 긁어옴</a></small></li>
 		</ul>
 		<h3>광고 게제 양해의 글</h3>
 		<ul>
@@ -328,6 +371,7 @@ http://jscompress.com/
 		{ url: 'js/libs/ember-1.5.1.min.js', expire: 168},
 		{ url: 'js/libs/jquery.cookie.js', expire: 168},
 		{ url: 'js/libs/bootstrap.min.js', expire: 168 },
+		{ url: 'js/ladder.js', expire: 168 },
 		{ url: 'js/app.js', expire: 1, unique: 1 }
 	);
 </script>

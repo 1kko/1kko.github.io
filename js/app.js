@@ -9,6 +9,7 @@ App.Router.map(function()
 	this.resource('parking');
 	this.resource('about');
 	this.resource('eatout');
+	this.resource('laddergame');
 });
 
 App.IndexRoute=Ember.Route.extend({
