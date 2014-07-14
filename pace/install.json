@@ -1,0 +1,30 @@
+{
+  "resources": {
+    "head": [
+      {
+        "type": "script",
+        "src": "./pace.js"
+      },
+      {
+        "type": "style",
+        "src": "./themes/{{ options.color }}/pace-theme-{{ options.theme }}.css"
+      }
+    ]
+  },
+  "options": {
+    "properties": {
+      "color": {
+        "title": "Color",
+        "type": "string",
+        "enum": ["black", "white", "silver", "red", "orange", "yellow", "green", "blue", "pink", "purple"],
+        "default": "blue"
+      },
+      "theme": {
+        "title": "Theme",
+        "type": "string",
+        "enum": ["barber-shop", "big-counter", "bounce", "center-atom", "center-circle", "center-radar", "center-simple", "corner-indicator", "fille-left", "flash", "flat-top", "loading-bar", "mac-osx", "minimal"],
+        "default": "barber-shop"
+      }
+    }
+  }
+}
