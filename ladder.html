@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="img/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="img/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#5b9bd5">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <script src="pace/pace.min.js"></script>
+    <link href="pace/themes/blue/pace-theme-center-circle.css" rel="stylesheet" />
+    <title>Nine2Six</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/ladder.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>사다리 타기</h1>
+    <hr>
+    <div class="row" id="div_step1">
+        <div class="col-xs-2">인원</div>
+        <div class="col-xs-6">
+            <select id="sel_num" class="form-control col-xs-4">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5" selected >5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+            </select>
+        </div>
+        <div class="col-xs-1">명</div>
+        <div class="col-xs-1">
+            <input type="button" value="만들기" onclick="Yl.init();" class="btn btn-primary">
+        </div>
+    </div>
+
+    <div class="row" id="div_step2" style="display:none;">
+    <input type="button" class="btn btn-primary col-xs-12" value="시작" onclick="Yl.create();">
+    </div>
+ 
+    <div id="div_body" class="col-xs-12"></div>
+</body>
+
+<footer>
+    <div class="container" id="footer">
+        <div class="col-xs-12 navbar-inverse navbar-fixed-bottom" id="bottomNav">
+            <div class="col-xs-3 text-center"><a href="/#/menus"><i class="glyphicon glyphicon-cutlery"></i><br>Menu</a></div>
+            <div class="col-xs-3 text-center"><a href="/#/cafe"><i class="glyphicon glyphicon-glass"></i><br>Cafe</a></div>
+            <!--div class="col-xs-2 text-center">{{#link-to "parking"}}<i class="glyphicon glyphicon-map-marker"></i><br>Parking{{/link-to}}</div-->
+            <div class="col-xs-3 text-center"><a href="/#/eatout"><i class="glyphicon glyphicon-tree-conifer"></i><br>EatOut</a></div>
+            <div class="col-xs-3 text-center"><a href="/#/about"><i class="glyphicon glyphicon-info-sign"></i><br>About</a></div>
+        </div>
+    </div>
+</footer>
+</html>
