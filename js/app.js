@@ -34,6 +34,12 @@ App.NavigationView = Ember.View.extend({
 App.MenusView=Ember.View.extend({
 	click: function () {
 		$("html, body").animate({ scrollTop: 0}, 600);
+	},
+	didInsertElement: function() {
+		Ember.run.scheduleOnce('afterRender', this, this._childViewsRendered);
+  	},
+	_childViewsRendered: function() {
+		(adsbygoogle = window.adsbygoogle || []).push({});
 	}
 });
 
@@ -59,7 +65,6 @@ App.MenuRoute = Ember.Route.extend({
 App.RestaurantRoute = Ember.Route.extend({
 	model: function(params) {
 		var retVal=RestaurantsData.findBy('Rid', params.Rid);
-		console.debug(retVal)
 		return retVal;
 	}
 });
