@@ -182,96 +182,45 @@
 	<div class="row">
 		<h1>EatOut</h1>
 		<hr>
+		{{#each}}
 		<div class="media">
-			<a class="pull-left" href="tel:0316967433"><img class="media-object" src="img/img_myoungin.png"></img></a>
+			{{#link-to 'restaurant' this classNames="pull-left"}}<img class="media-object" src="{{unbound img}}">{{/link-to}}
 			<div class="media-body">
-				<h4 class="media-heading">명인만두</h4>
+				<h4 class="media-heading">{{title}}</h4>
 				 <ul>
-					 <li><a href="tel:0316967433">031-696-7433</a></li>
-					 <li>평일 07:30~21:00 / 일요일/공휴일 07:30~19:30 / 토요일: 휴무</li>
-					 <li>위치: H스퀘어</li>
-					 <li>메뉴: 분식류(6000원 한도)</li>
+					 <li><a href="tel:{{unbound tel}}">{{format-tel tel}}</a></li>
+					 {{#each desc}}
+					 <li>{{line}}</li>
+					 {{/each}}
 				 </ul>
 			</div>
 		</div>
-
-		<div class="media">
-			<a class="pull-left" href="tel:0316281479"><img class="media-object" src="img/img_jjigae.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">찌개애감동</h4>
-				<ul>
-					<li><a href="tel:0316281479">031-628-1479</a></li>
-					<li>평일 10:30~22:00 / 토요일/공휴일 10:30~15:00 / 일요일: 휴무</li>
-					<li>위치: 유스페이스</li>
-					<li>메뉴: 찌개류, 제육불고기</li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="media">
-			<a class="pull-left" href="tel:0317893821"><img class="media-object" src="img/img_damso.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">담소사골순대</h4>
-				<ul>
-				<li><a href="tel:0317893821">031-789-3821</a></li>
-				<li>평일 24시간 / 월요일 11:00 Open / 일요일: 22:30 Close</li>
-				<li>위치: H스퀘어</li>
-				<li>메뉴: 우사골돈순대국\우사골우순대국</li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="media">
-			<a class="pull-left" href="tel:0317893555"><img class="media-object" src="img/img_jincook.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">the 진국</h4>
-				<ul>
-				<li><a href="tel:0317893555">031-789-3555</a></li>
-				<li>평일/토요일/공휴일 24시간 / 일요일: 22:30 Close</li>
-				<li>위치: H스퀘어 S동</li>
-				<li>메뉴: 수육국밥</li>
-				</ul>
-			</div>
-		</div>
-		<div class="media">
-			<a class="pull-left" href="tel:0317893737"><img class="media-object" src="img/img_singiso.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">신기소</h4>
-				<ul>
-				<li><a href="tel:0317893737">031-789-3737</a></li>
-				<li>평일/주말,공휴일 11:00~21:00</li>
-				<li>위치: H스퀘어 S동</li>
-				<li>메뉴: 가쯔돈, 김치가쯔돈, 우동, 돌솥알밥, 김치우동, 회덥밥, 새우튀김우동</li>
-				</ul>
-			</div>
-		</div>
-		<div class="media">
-			<a class="pull-left" href="tel:0317893514"><img class="media-object" src="img/img_phocurry.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">Pho커리</h4>
-				<ul>
-				<li><a href="tel:0317893514">031-789-3514</a></li>
-				<li>평일 09:00~21:00 / 주말,공휴일 10:00~20:00</li>
-				<li>위치: H스퀘어 S동</li>
-				<li>메뉴: 돈까스커리, 양지쌀국수, 오무라이스</li>
-				</ul>
-			</div>
-		</div>
-		<div class="media">
-			<a class="pull-left" href="tel:0316967455"><img class="media-object" src="img/img_rotutu.png"></img></a>
-			<div class="media-body">
-				<h4 class="media-heading">Rotutu <small><span class="label label-success">배달가능</span></small></h4>
-				<ul>
-				<li><a href="tel:0316967455">031-696-7455</a></li>
-				<li>평일 10:30~22:00 / 토요일/공휴일 11:00~22:00 / 일요일: 휴무</li>
-				<li>위치: H스퀘어 S동</li>
-				<li>메뉴: 햄에그샌드위치+음료, 햄치즈샌드위치+음료, 샌드위치: 스테이크/베이컨, 샐러드: 닭가슴살/리코타치즈</li>
-				</ul>
-			</div>
-		</div>
-
+		{{/each}}
 	</div>
 </script>
+
+<script type="text/x-handlebars" id="restaurant">
+	<h1><a href="tel:{{unbound tel}}">{{title}} <small>{{format-tel tel}}</small></a></h1>
+	<ul>
+		{{#each desc}}
+		<li>{{line}}</li>
+		{{/each}}
+	</ul>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>메뉴명</th>
+			<th>가격</th>
+		</tr>
+		</thead>
+		<tbody>
+			{{#each menulist}}
+			<tr><td>{{item}}</td><td>{{price}}</td></tr>
+			{{/each}}
+		</tbody>
+	</table>
+</script>
+
 
 <script type="text/x-handlebars" id="about">
 	<div class="row">
@@ -359,7 +308,7 @@ http://jscompress.com/
 		{ url: 'js/libs/jquery.cookie.js', expire: 168},
 		{ url: 'js/libs/bootstrap.min.js', expire: 168 },
 		{ url: 'js/ladder.js', expire: 168 },
-		{ url: 'js/app.js', expire: 1, unique: 2 }
+		{ url: 'js/app.js', expire: 1, unique: 3 }
 	);
 </script>
 <script>
