@@ -141,7 +141,7 @@ var RestaurantsData=[
 		Rid:"2", 
 		title: "찌개애감동", 
 		tel:"0316281479", 
-		img:"img/img_jjigae", 
+		img:"img/img_jjigae.png", 
 		desc:[
 			{line:"평일 10:30~22:00 / 토요일/공휴일 10:30~15:00 / 일요일: 휴무"}, 
 			{line:"위치: 유스페이스"},
