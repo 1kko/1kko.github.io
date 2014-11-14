@@ -2,6 +2,9 @@ CACHE MANIFEST
 
 # Version: 1.00
 
+NETWORK:
+menu/csv_export_utf8.csv
+
 CACHE:
 index.html
 css/bootstrap.min.css
