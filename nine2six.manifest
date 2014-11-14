@@ -5,6 +5,9 @@ CACHE MANIFEST
 NETWORK:
 *
 
+FALLBACK:
+menu/csv_export_utf8.csv
+
 CACHE:
 index.html
 css/bootstrap.min.css
