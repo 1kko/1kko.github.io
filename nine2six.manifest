@@ -2,12 +2,6 @@ CACHE MANIFEST
 
 # Version: 1.01
 
-NETWORK:
-*
-
-FALLBACK:
-menu/csv_export_utf8.csv
-
 CACHE:
 index.html
 css/bootstrap.min.css
@@ -68,3 +62,6 @@ js/libs/jquery-1.11.0.min.js
 js/libs/jquery.cookie.js
 pace/pace.min.js
 pace/themes/blue/pace-theme-center-circle.css
+
+NETWORK:
+*
