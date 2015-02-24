@@ -42,7 +42,7 @@
 	<footer>
 		<div class="container" id="footer">
 			<div class="col-xs-12 navbar-inverse navbar-fixed-bottom" id="bottomNav">
-				<div class="col-xs-3 text-center">{{#link-to "menus"}}<i class="glyphicon glyphicon-cutlery"></i><br>Menu{{/link-to}}</div>
+				<div class="col-xs-3 text-center">{{#link-to "menus"}}<i class="glyphicon glyphicon-cutlery"></i><br>MMenu{{/link-to}}</div>
 				<div class="col-xs-3 text-center">{{#link-to "cafe"}}<i class="glyphicon glyphicon-glass"></i><br>Cafe{{/link-to}}</div>
 				<!--div class="col-xs-2 text-center">{{#link-to "parking"}}<i class="glyphicon glyphicon-map-marker"></i><br>Parking{{/link-to}}</div-->
 				<div class="col-xs-3 text-center">{{#link-to "eatout"}}<i class="glyphicon glyphicon-tree-conifer"></i><br>EatOut{{/link-to}}</div>
@@ -60,6 +60,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 			<h1>Menu</h1>
 			<button {{ action "menunow" }} class="btn btn-warning btn-block" type="button" id="btn_add">아 배고파!</button>
+			{{{ MenusNotice }}}
 			<hr>
 			<!-- 926.1kko.com -->
 			<ins id="googlead" class="adsbygoogle col-xs-11" style="display:block" data-ad-client="ca-pub-3159417322848708" data-ad-slot="3897079394" data-ad-format="auto"></ins>
@@ -310,14 +311,16 @@ http://jscompress.com/
 	basket.clear(true);
 	basket.require(
 		{ url: 'js/libs/jquery-1.11.0.min.js', expire: 168 },
-		{ url: 'js/libs/handlebars-1.1.2.min.js', expire: 168},
-		{ url: 'js/libs/ember-1.5.1.min.js', expire: 168},
-		{ url: 'js/libs/jquery.cookie.js', expire: 168},
+		{ url: 'js/libs/handlebars-1.1.2.min.js', expire: 168 },
+		{ url: 'js/libs/ember-1.5.1.min.js', expire: 168 },
+		{ url: 'js/libs/jquery.cookie.js', expire: 168 },
 		{ url: 'js/libs/bootstrap.min.js', expire: 168 },
 		{ url: 'js/ladder.js', expire: 168 },
-		{ url: 'js/app.js', expire: 1, unique: 1407171 }
+		{ url: 'js/app.js', expire: 1, unique: 1502241 }
 	);
 </script>
+
+
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

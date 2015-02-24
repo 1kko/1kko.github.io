@@ -44,6 +44,7 @@ App.MenusView=Ember.View.extend({
 });
 
 var MenusData=getMenusData("menu/csv_export_utf8.csv");
+var MenusNotice=getMenusNotice("menu/notice.txt");
 
 App.MenusRoute = Ember.Route.extend({
 	model: function() {
@@ -76,8 +77,27 @@ function getMenusData(Url) {
 	return jsondata;
 };
 
+function getMenusNotice(Url) {
+	var result = "";
+	$.ajax({
+		url: Url,
+		type: 'get',
+		dataType: 'html',
+		async: false,
+		success: function(data) {
+			// console.debug("notice data size: "+data.length);
+			if ( data.length>=16 ) {
+				result = "<br><div class='alert alert-info'>"+data+"</div>";
+			}
+		},
+		error: function() { result=""; }
+
+	});
+	return result;
+}
+
 var RestaurantsData=[
-	{ 
+	{
 		Rid:"1", 
 		title: "명인만두", 
 		tel:"0316967433", 
