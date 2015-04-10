@@ -43,7 +43,8 @@ App.MenusView=Ember.View.extend({
 	}
 });
 
-var MenusData=getMenusData("menu/csv_export_utf8.csv");
+var MenusURL="menu/"+getThisWeekRange()+".csv";
+var MenusData=getMenusData(MenusURL);
 var MenusNotice=getMenusNotice("menu/notice.txt");
 
 App.MenusRoute = Ember.Route.extend({
@@ -69,6 +70,23 @@ App.RestaurantRoute = Ember.Route.extend({
 		return retVal;
 	}
 });
+
+function getThisWeekRange() {
+	var curr = new Date;
+	var first=curr.getDate()-curr.getDay();
+	var last=first+6;
+
+	// var firstday = new Date(curr.setDate(first)).toUTCString();
+	// var lastday = new Date(curr.setDate(last)).toUTCString();
+
+	// var firstday=first.toISOString().slice(0,10).replace(/-/g,"");
+	// var lastday=last.toISOString().slice(0,10).replace(/-/g,"");
+
+	var firstday=new Date(curr.setDate(first)).toISOString().slice(0,10).replace(/-/g,"");
+	var lastday=new Date(curr.setDate(last)).toISOString().slice(0,10).replace(/-/g,"");
+
+	return firstday+"-"+lastday;
+}
 
 function getMenusData(Url) {
 	var csv= showGetResult(Url);
@@ -321,8 +339,9 @@ App.CafeController = Ember.Controller.extend({
 		{ label: "사과쥬스", value: "사과쥬스" },
 		{ label: "자몽쥬스", value: "자몽쥬스" },
 		{ label: "-------", value: null },
-		{ label: "블루레몬에이드", value: "블루레몬에이드 "},
-		{ label: "핑크레몬에이드", value: "핑크레몬에이드 "}
+		{ label: "계절메뉴1", value: "계절메뉴1"},
+		{ label: "계절메뉴2", value: "계절메뉴2"},
+		{ label: "계절메뉴3", value: "계절메뉴3"}
 	],
 	actions: {
 		addCurrentOrder: function() {
