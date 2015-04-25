@@ -72,23 +72,26 @@ App.RestaurantRoute = Ember.Route.extend({
 });
 
 function getThisWeekRange() {
-	var curr = new Date;
-	var first=curr.getDate()-curr.getDay();
-	var last=first+6;
+	// var curr = new Date;
+	// var first=curr.getDate()-curr.getDay();
+	// var last=first+6;
 
-	// var firstday = new Date(curr.setDate(first)).toUTCString();
-	// var lastday = new Date(curr.setDate(last)).toUTCString();
+	// // var firstday = new Date(curr.setDate(first)).toUTCString();
+	// // var lastday = new Date(curr.setDate(last)).toUTCString();
 
-	// var firstday=first.toISOString().slice(0,10).replace(/-/g,"");
-	// var lastday=last.toISOString().slice(0,10).replace(/-/g,"");
+	// // var firstday=first.toISOString().slice(0,10).replace(/-/g,"");
+	// // var lastday=last.toISOString().slice(0,10).replace(/-/g,"");
 
-	var firstday=new Date(curr.setDate(first)).toISOString().slice(0,10).replace(/-/g,"");
-	var lastday=new Date(curr.setDate(last)).toISOString().slice(0,10).replace(/-/g,"");
+	// var firstday=new Date(curr.setDate(first)).toISOString().slice(0,10).replace(/-/g,"");
+	// var lastday=new Date(curr.setDate(last)).toISOString().slice(0,10).replace(/-/g,"");
+	firstday=moment().day(0); // Monday
+	lastday=moment().day(6); // Sunday
 
-	return firstday+"-"+lastday;
+	return firstday.format("YYYYMMDD")+"-"+lastday.format("YYYYMMDD");
 }
 
 function getMenusData(Url) {
+	console.debug("Fetching: "+Url)
 	var csv= showGetResult(Url);
 	var retval=CSV2JSON(csv);
 	var jsondata=$.parseJSON(retval);
