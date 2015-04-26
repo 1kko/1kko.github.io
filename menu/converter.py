@@ -85,8 +85,8 @@ def data_merger(ws, Column, start, end, header=""):
 		else:
 			retval+="\n"+ws[cell].value
 	
-	if len(retval.strip(u"\n"))>1:
-		return "\n["+header+"]"+retval
+	if len(retval)>1:
+		return "\n["+header.replace("\n"," ")+"]"+retval
 	else:
 		return ""
 
