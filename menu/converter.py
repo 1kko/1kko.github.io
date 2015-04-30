@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # coding=utf-8
 
-import sys
+import sys, re
 from openpyxl import load_workbook
 from datetime import datetime, timedelta
 
@@ -56,7 +56,6 @@ def data_finder(ws, Column, start, end):
 	for i in range(start, end+1):
 		cell=Column+str(i)
 		if ws[cell].value!=None:
-			
 			if temps[j]-1 >= end:
 				real_end=end
 			else:
@@ -68,15 +67,20 @@ def data_finder(ws, Column, start, end):
 					'row':{'start':i, 'end':real_end}, \
 					'cell':{'start':cell, 'end':Column+str(real_end)} \
 					}
+			#print "j=",j,"end=",end, "temps[j]=",temps[j],"subval=",subval
 			retval.append(subval)
 			j+=1
 
 	return retval
 
-
 def data_merger(ws, Column, start, end, header=""):
+	""" From given range of cells, return merged data.
+	This does not actually merge cells in worksheet.
+	"""
 	# print "rx=", start, end
 	retval=""
+	header="\n["+header.replace("\n"," ")+"]"
+
 	for i in range(start, end+1):
 		cell=Column+str(i)
 		# print "i=",cell
@@ -86,7 +90,7 @@ def data_merger(ws, Column, start, end, header=""):
 			retval+="\n"+ws[cell].value
 	
 	if len(retval)>1:
-		return "\n["+header.replace("\n"," ")+"]"+retval
+		return header+retval
 	else:
 		return ""
 
@@ -96,46 +100,90 @@ def main(filename):
 	# activate worksheet
 	ws=wb.active
 
-	# ----- 플러스메뉴 fix 시작
-	# BreakfastMenu Fix
-	# 플러스 메뉴 병합 해제
-	ws.unmerge_cells('A14:B14')
-	# '플러스메뉴' (A14) 를 (B14)로 복사
-	ws['B14']=ws['A14'].value
-	# A14 클리어
-	ws['A14']=""
-	# 원래의 아침메뉴 Range를 병합해제
-	ws.unmerge_cells('A3:A13')
-	# 플러스 메뉴가 있는 부분까지 아침메뉴로 병합
-	ws.merge_cells('A3:A14')
 
-	# LunchMenu Fix
-	ws.unmerge_cells('A39:B42')
-	ws['B39']=ws['A39'].value
-	ws.merge_cells('B39:B42')
-	ws['A39']=""
-	ws.unmerge_cells('A15:A38')
-	ws.merge_cells('A15:A42')
+	# # ----- 플러스메뉴 fix 시작
+	plusMenuCells=[]
+	for plusMenuItem in ws.merged_cell_ranges:
+		cell=plusMenuItem.split(":")[0]
 
-	# DinnerMenu Fix
-	ws.unmerge_cells('A51:B51')
-	ws['B51']=ws['A51'].value
-	ws['A51']=""
-	ws.unmerge_cells('A43:A50')
-	ws.merge_cells('A43:A51')
+		if ws[cell].value!=None:
+			if ws[cell].value.find(u'플러스')>=0:
+				plusMenuCells.append(plusMenuItem)
 
-	# End of Data Fix.
-	# 마지막에 글자를 넣어줘야 range를 구할 수 있음
-	last_row=52
-	ws.unmerge_cells('A'+str(last_row)+':G'+str(last_row))
-	ws['B'+str(last_row)]="."
-	ws['C'+str(last_row)]="."
-	ws['D'+str(last_row)]="."
-	ws['E'+str(last_row)]="."
-	ws['F'+str(last_row)]="."
-	ws['G'+str(last_row)]="."
+	for time in ['07:30','11:30','17:30']:
+		meal=range_finder(ws, "A", time)
+		mealStart=meal['row']['start']
+		mealEnd=meal['row']['end']
+
+		for i in range(0,len(plusMenuCells)):
+			# print "plusMenuCells:",plusMenuCells
+			plusStart=int(plusMenuCells[i].split(":")[0].replace("A",""))
+			plusEnd=int(plusMenuCells[i].split(":")[1].replace("B",""))
+
+			# print "mealEnd: ", mealEnd, "  plusStart: ",plusStart
+			if mealEnd == int(plusStart)-1:
+				plusStart=str(plusStart)
+				plusEnd=str(plusEnd)
+				mealEnd=str(mealEnd)
+				mealStart=str(mealStart)
+				
+				# print "unmerge: ",'A'+plusStart+':B'+plusEnd
+				ws.unmerge_cells('A'+plusStart+':B'+plusEnd)
+				
+				# print "copy: ",'A'+plusStart,"->",'B'+plusStart, ws['A'+plusStart]
+				ws['B'+plusStart].value=ws['A'+plusStart].value
+				
+				# print "umnerge: ",'A'+mealStart+':A'+mealEnd
+				ws.unmerge_cells('A'+mealStart+':A'+mealEnd)
+				
+				# print "merge: ",'A'+mealStart+':A'+plusEnd
+				ws.merge_cells('A'+mealStart+':A'+plusEnd)
+				if plusEnd!=plusStart:
+					ws.merge_cells('B'+plusStart+':B'+plusEnd)
+
+
+	# # BreakfastMenu Fix
+	# # 플러스 메뉴 병합 해제
+	# ws.unmerge_cells('A14:B14')
+	# # '플러스메뉴' (A14) 를 (B14)로 복사
+	# ws['B14']=ws['A14'].value
+	# # A14 클리어
+	# ws['A14']=""
+	# # 원래의 아침메뉴 Range를 병합해제
+	# ws.unmerge_cells('A3:A13')
+	# # 플러스 메뉴가 있는 부분까지 아침메뉴로 병합
+	# ws.merge_cells('A3:A14')
+
 	# ----- 플러스메뉴 fix 끝 
 
+	# ----- Start of Last Row Data Fix.
+	# 마지막에 글자를 넣어줘야 range를 구할 수 있음
+	last_row=0
+	for mcell in ws.merged_cells:
+		cell=re.findall(r"[^\W\d_]+|\d+",mcell)
+		if cell[0]=='A' and int(cell[1])>=last_row:
+			last_row=int(cell[1])
+
+	last_col='A'
+	for mcell in ws.merged_cells:
+		cell=re.findall(r"[^\W\d_]+|\d+",mcell)
+		if ord(cell[0])>=ord(last_col):
+			last_col=cell[0]
+
+
+	last_row=str(last_row)
+	# print "last_row:", last_row, "last_col:", last_col
+	ws.unmerge_cells('A'+last_row+':'+last_col+last_row)
+
+	end=ord(last_col)-ord('A')
+	for i in range (0,end+1):
+		col=chr(ord('A')+i)
+		# print col+last_row
+		ws[col+last_row]="."
+	
+	# ----- End of Last ROw Data Fix.
+
+	# wb.save('balances.xlsx')
 
 	# d=datetime.date.today()
 	# year=d.year
