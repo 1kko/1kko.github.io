@@ -406,7 +406,8 @@ if __name__ == '__main__':
 				sendEmailFlag=False
 		except Exception as e:
 			title="[Ahnapp] Something went wrong ;("
-			body=tee.file.getvalue()+"\n"+str(e)
+			#body=tee.file.getvalue()+"\n"+str(e)
+			body=str(e)
 
 		finally:
 			if sendEmailFlag==True: 
