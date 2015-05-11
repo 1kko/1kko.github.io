@@ -328,17 +328,20 @@ if __name__ == '__main__':
 		print "Fetching from Email"
 		git=sh.git.bake(_cwd='.')
 		# print git.status()
-		attachments=fetch_attachments()
+		attachments=set(fetch_attachments())
 		for filename in attachments:
 			try:
 				convertedFilename=convert(filename)
-				print "adding %s" % convertedFilename
+				print "--------- git add %s" % convertedFilename
 				git.add(convertedFilename)
 				os.remove(filename)
 			except:
 				print ("File is already removed or not exists")
 		
-		git.commit(m='menu update')
-		#print git.status()
-		#print git.push()
+		print "--------- git commit"
+		git.commit(m='menu_update')
+		print "--------- git push"
+		git.push()
+		
+		print git.status()
 	
