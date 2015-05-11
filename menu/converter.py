@@ -395,7 +395,7 @@ if __name__ == '__main__':
 				tee.write("--------- git push")
 				git.push()
 				
-				tee.write(git.status())
+				tee.write(str(git.status()))
 
 				title="[Ahnapp] Menu Updated Successfully"
 				body=tee.file.getvalue()
