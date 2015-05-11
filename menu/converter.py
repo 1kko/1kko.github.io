@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # coding=utf-8
 
-import sys, re, os
+import sys, re, os, sh
 from openpyxl import load_workbook
 from datetime import datetime, timedelta
 import gmail_client
@@ -318,6 +318,7 @@ def convert(filename):
 		numday+=1
 
 	outputfile.close()
+	return outputfilename
 
 
 if __name__ == '__main__':
@@ -325,11 +326,19 @@ if __name__ == '__main__':
 		filename=sys.argv[1]
 	else:
 		print "Fetching from Email"
+		git=sh.git.bake(_cwd='.')
+		# print git.status()
 		attachments=fetch_attachments()
 		for filename in attachments:
-			convert(filename)
 			try:
+				convertedFilename=convert(filename)
+				print "adding %s" % convertedFilename
+				git.add(convertedFilename)
 				os.remove(filename)
 			except:
 				print ("File is already removed or not exists")
+		
+		git.commit(m='menu update')
+		#print git.status()
+		#print git.push()
 	
