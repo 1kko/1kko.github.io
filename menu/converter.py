@@ -182,7 +182,7 @@ def data_merger(ws, Column, start, end, header=""):
 
 
 def convert(filename):
-	print "loading: "+filename
+	tee.write("loading: %s " % filename)
 	wb=load_workbook(filename)
 	# activate worksheet
 	ws=wb.active
@@ -284,8 +284,8 @@ def convert(filename):
 	outputfilename=str(filename_date_start.strftime('%Y%m%d'))+"-"+str(filename_date_end.strftime('%Y%m%d'))+".csv"
 	outputfile=open(outputfilename, "w")
 
-	print "outputfilename: %s " % outputfilename
-	print "outputURL: %s" % "http://926.1kko.com/menu/"+outputfilename
+	tee.write("outputfilename: %s " % outputfilename)
+	tee.write("outputURL: %s" % "http://926.1kko.com/menu/"+outputfilename)
 	csvHeader=u"제목,시작 날짜,시작 시간,끝 날짜,끝 시간,하루 종일,미리 알림 설정/해제,미리 알림 날짜,미리 알림 시간,모임 이끌이,필수 참석자,선택 참석자,모임 리소스,거리,범주 항목,비용 정보,설명,숨김,시간 상태 보기,우선 순위,우편물 종류,장소"
 	outputfile.write(csvHeader.encode('utf8')+"\n")
 
@@ -408,6 +408,7 @@ if __name__ == '__main__':
 			title="[Ahnapp] Something went wrong ;("
 			#body=tee.file.getvalue()+"\n"+str(e)
 			body=str(e)
+			raise
 
 		finally:
 			if sendEmailFlag==True: 
