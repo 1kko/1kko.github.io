@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # coding=utf-8
 
-import sys, re, os, sh
+import sys, re, os, sh, smtplib
 from openpyxl import load_workbook
 from datetime import datetime, timedelta
 import gmail_client
@@ -11,14 +11,54 @@ import logging
 from datetime import *
 from dateutil.relativedelta import *
 import json
+import StringIO
 
 # logging.basicConfig(level=logging.INFO)
+
+class Tee(object):
+    def __init__(self):
+        self.file = StringIO.StringIO()
+        self.stdout = sys.stdout
+        sys.stdout = self
+    def __del__(self):
+        sys.stdout = self.stdout
+        self.file.close()
+    def write(self, data):
+        self.file.write(data+"\n")
+        self.stdout.write(data+"\n")
 
 def Help(msg=""):
 	print "Converts ahnlab Menu to Outlook compativle csv"
 	if msg !="":
 		print "Error: %s" % (msg)
 	sys.exit(-1)
+
+def send_email(title, body):
+	FROM='alarm@1kko.com'
+	TO=['me@1kko.com']
+	SUBJECT=title
+	TEXT=body
+
+	with open('./config.json') as fd:
+		logininfo=json.load(fd)
+
+	GMAIL_ID=logininfo['GMAIL_ID']
+	GMAIL_PW=logininfo['GMAIL_PW']
+
+	message = """\From: %s\nTo: %s\nSubject: %s\n\n%s""" % (FROM, ", ".join(TO), SUBJECT, TEXT)
+
+	try:
+		#server = smtplib.SMTP(SERVER) 
+		server = smtplib.SMTP("smtp.gmail.com", 587) #or port 465 doesn't seem to work!
+		server.ehlo()
+		server.starttls()
+		server.login(GMAIL_ID, GMAIL_PW)
+		server.sendmail(FROM, TO, message)
+		#server.quit()
+		server.close()
+		print 'successfully sent the mail'
+	except:
+		print "failed to send mail"
 
 
 def fetch_attachments():
@@ -322,31 +362,53 @@ def convert(filename):
 
 
 if __name__ == '__main__':
+	# stdout = StringIO.StringIO()
+	# sys.stdout = stdout
 	if len(sys.argv)>=2:
 		filename=sys.argv[1]
 	else:
-		commitFlag=False
-		print "Fetching from Email"
-		git=sh.git.bake(_cwd='.')
-		# print git.status()
-		attachments=set(fetch_attachments())
-		for filename in attachments:
-			try:
-				convertedFilename=convert(filename)
-				print "--------- git add %s" % convertedFilename
-				git.add(convertedFilename)
-				os.remove(filename)
-				commitFlag=True
-			except:
-				print ("File is already removed or not exists")
-		
-		if commitFlag==True:
-			print "--------- git commit"
-			git.commit(m='menu_update')
-			print "--------- git push"
-			git.push()
+		try:
+			commitFlag=False
+			sendEmailFlag=True
+			tee=Tee()
+
+			tee.write("Fetching from Email")
+
+			git=sh.git.bake(_cwd='.')
+			# print git.status()
+			attachments=set(fetch_attachments())
+			for filename in attachments:
+				try:
+					convertedFilename=convert(filename)
+					tee.write("--------- git add %s" % convertedFilename)
+					git.add(convertedFilename)
+					os.remove(filename)
+					commitFlag=True
+				except:
+					tee.write("File is already removed or not exists")
+					raise
 			
-			print git.status()
-		else:
-			print "nothing updated"
-	
+			if commitFlag==True:
+				tee.write ("--------- git commit")
+				git.commit(m='menu_update')
+				tee.write("--------- git push")
+				git.push()
+				
+				tee.write(git.status())
+
+				title="[Ahnapp] Menu Updated Successfully"
+				body=tee.file.getvalue()
+				# send_email(title,body)
+			else:
+				tee.write("nothing updated")
+				# print tee.file.getvalue()
+				sendEmailFlag=False
+		except:
+			title="[Ahnapp] Something went wrong ;("
+			body=tee.file.getvalue()
+
+		finally:
+			if sendEmailFlag==True: 
+				send_email(title,body)
+
+
