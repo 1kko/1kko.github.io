@@ -325,6 +325,7 @@ if __name__ == '__main__':
 	if len(sys.argv)>=2:
 		filename=sys.argv[1]
 	else:
+		commitFlag=False
 		print "Fetching from Email"
 		git=sh.git.bake(_cwd='.')
 		# print git.status()
@@ -335,13 +336,17 @@ if __name__ == '__main__':
 				print "--------- git add %s" % convertedFilename
 				git.add(convertedFilename)
 				os.remove(filename)
+				commitFlag=True
 			except:
 				print ("File is already removed or not exists")
 		
-		print "--------- git commit"
-		git.commit(m='menu_update')
-		print "--------- git push"
-		git.push()
-		
-		print git.status()
+		if commitFlag==True:
+			print "--------- git commit"
+			git.commit(m='menu_update')
+			print "--------- git push"
+			git.push()
+			
+			print git.status()
+		else:
+			print "nothing updated"
 	
