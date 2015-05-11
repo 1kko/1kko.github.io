@@ -2,15 +2,59 @@
 # -*- coding: UTF-8 -*-
 # coding=utf-8
 
-import sys, re
+import sys, re, os
 from openpyxl import load_workbook
 from datetime import datetime, timedelta
+import gmail_client
+import locale
+import logging
+from datetime import *
+from dateutil.relativedelta import *
+import json
+
+# logging.basicConfig(level=logging.INFO)
 
 def Help(msg=""):
 	print "Converts ahnlab Menu to Outlook compativle csv"
 	if msg !="":
 		print "Error: %s" % (msg)
 	sys.exit(-1)
+
+
+def fetch_attachments():
+	retval=[]
+	g=gmail_client.Gmail()
+	
+	locale.setlocale(locale.LC_TIME,'C')
+	
+	TODAY=date.today()
+	Before=TODAY+relativedelta(days=-5)
+	After=TODAY
+
+	with open('./config.json') as fd:
+		logininfo=json.load(fd)
+
+	GMAIL_ID=logininfo['GMAIL_ID']
+	GMAIL_PW=logininfo['GMAIL_PW']
+
+	g.login(GMAIL_ID,GMAIL_PW)
+	#emails=g.inbox().mail(prefetch=True, after=datetime(2015,2,5), before=datetime(2015,2,20), sender='mk2926.jeong@ourhome.co.kr')
+	emails=g.label('Ahnapp').mail(prefetch=True, after=After, before=Before, unread=True)
+
+	for email in emails:
+		for attachment in email.attachments:
+			attname=attachment.name.encode('utf-8').strip()
+			attsize=str(attachment.size).encode('utf-8').strip()
+			print 'saving attachment: %s (%sKb)' % (attname, attsize)
+			attachment.save('./'+attname)
+		email.mark_read()
+		email.archive()
+
+		retval.append(attname)
+
+	g.logout()
+
+	return retval
 
 
 def range_finder(ws, Column, search_str, padding=0, heading=0, start=1, end=100):
@@ -39,6 +83,7 @@ def range_finder(ws, Column, search_str, padding=0, heading=0, start=1, end=100)
 			}
 
 	return retval
+
 
 def data_finder(ws, Column, start, end):
 	retval=[]
@@ -73,6 +118,7 @@ def data_finder(ws, Column, start, end):
 
 	return retval
 
+
 def data_merger(ws, Column, start, end, header=""):
 	""" From given range of cells, return merged data.
 	This does not actually merge cells in worksheet.
@@ -94,7 +140,8 @@ def data_merger(ws, Column, start, end, header=""):
 	else:
 		return ""
 
-def main(filename):
+
+def convert(filename):
 	print "loading: "+filename
 	wb=load_workbook(filename)
 	# activate worksheet
@@ -271,10 +318,18 @@ def main(filename):
 		numday+=1
 
 	outputfile.close()
+
+
 if __name__ == '__main__':
-	if len(sys.argv[1])==0:
-		filename="42751.xlsx"
-	else:
+	if len(sys.argv)>=2:
 		filename=sys.argv[1]
+	else:
+		print "Fetching from Email"
+		attachments=fetch_attachments()
+		for filename in attachments:
+			convert(filename)
+			try:
+				os.remove(filename)
+			except:
+				print ("File is already removed or not exists")
 	
-	main(filename)
