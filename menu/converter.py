@@ -85,12 +85,17 @@ def fetch_attachments():
 		for attachment in email.attachments:
 			attname=attachment.name.encode('utf-8').strip()
 			attsize=str(attachment.size).encode('utf-8').strip()
-			print 'saving attachment: %s (%sKb)' % (attname, attsize)
-			attachment.save('./'+attname)
+
+			filename, file_ext=os.path.splitext(attname)
+			if file_ext==".xlsx":
+				print 'saving attachment: %s (%s Bytes)' % (attname, attsize)
+				attachment.save('./'+attname)
+				retval.append(attname)
+			else:
+				print 'skip: %s' % attname
+
 		email.mark_read()
 		email.archive()
-
-		retval.append(attname)
 
 	g.logout()
 
