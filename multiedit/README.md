@@ -8,9 +8,6 @@ Organize / write / view comparison note on multiple projects.
 - Scroll is synced in both projects.
 - Edit/View mode
 
-# Demo
-http://1kko.github.io/multiedit
-
 # Requirements
 PHP5+, Apache, Mysql5+
 
@@ -79,3 +76,6 @@ https://github.com/carhartl/jquery-cookie
 
 Image Lightbox
 https://github.com/jackmoore/colorbox
+
+# Contribution
+Thanks to eisutal@gmail.com to creating backend
