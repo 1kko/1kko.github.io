@@ -82,6 +82,7 @@ def fetch_attachments():
 	emails=g.label('Ahnapp').mail(prefetch=True, after=After, before=Before, unread=True)
 
 	for email in emails:
+		print "New email found, checking attachments"
 		for attachment in email.attachments:
 			attname=attachment.name.encode('utf-8').strip()
 			attsize=str(attachment.size).encode('utf-8').strip()
@@ -378,15 +379,21 @@ if __name__ == '__main__':
 			commitFlag=False
 			tee=Tee()
 
-			tee.write("Fetching from Email")
-
 			git=sh.git.bake(_cwd='.')
 			# print git.status()
+			#### git stash, pull th
+			tee.write("Check for update.")
+			is_updated=git.pull()
+			if (is_updated==0):
+				pass
+			# git.stash("remove")
+			
+			tee.write("Fetching from Email")
 			attachments=set(fetch_attachments())
 			for filename in attachments:
 				try:
 					convertedFilename=convert(filename)
-					tee.write("--------- git add %s" % convertedFilename)
+					tee.write("New file found. Adding to repository: %s" % convertedFilename)
 					git.add(convertedFilename)
 					os.remove(filename)
 					commitFlag=True
@@ -395,9 +402,9 @@ if __name__ == '__main__':
 					raise
 			
 			if commitFlag==True:
-				tee.write ("--------- git commit")
+				tee.write ("Commiting changes")
 				git.commit(m='menu_update')
-				tee.write("--------- git push")
+				tee.write("Push to server")
 				git.push()
 				
 				tee.write(str(git.status()))
@@ -410,7 +417,7 @@ if __name__ == '__main__':
 				# print tee.file.getvalue()
 				sendEmailFlag=False
 		except Exception as e:
-			title="[Ahnapp] Something went wrong ;("
+			title="[Ahnapp] Error: Something went wrong ;("
 			#body=tee.file.getvalue()+"\n"+str(e)
 			body=str(e)
 			raise
