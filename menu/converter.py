@@ -282,9 +282,9 @@ def convert(filename):
 	# year=d.year
 	# month=ws['D2'].value.split(" ")[0].replace("월","")
 	# day=ws['D2'].value.split(" ")[1].replace("일","")
-	date_start=datetime.strptime( str(datetime.now().year)+' '+ ws['D2'].value.split(" ")[0].replace(u"\uc6d4","")+' '+ str(int(ws['D2'].value.split(" ")[1].replace(u"\uc77c",""))), '%Y %m %d')-timedelta(-1)
-	
+	date_start=datetime.strptime( str(datetime.now().year)+' '+ ws['D2'].value.split(" ")[0].replace(u"\uc6d4","")+' '+ str(int(ws['D2'].value.split(" ")[1].replace(u"\uc77c",""))), '%Y %m %d')+timedelta(-1)
 	filename_date_start=date_start+timedelta(-1)
+	print "date_start", date_start, "filename_date_start", filename_date_start
 	filename_date_end=filename_date_start+timedelta(6)
 
 	outputfilename=str(filename_date_start.strftime('%Y%m%d'))+"-"+str(filename_date_end.strftime('%Y%m%d'))+".csv"
