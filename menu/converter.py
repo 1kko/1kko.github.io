@@ -12,6 +12,7 @@ from datetime import *
 from dateutil.relativedelta import *
 import json
 import StringIO
+import string
 
 # logging.basicConfig(level=logging.INFO)
 
@@ -187,6 +188,16 @@ def data_merger(ws, Column, start, end, header=""):
 		return ""
 
 
+def Extract_Alparbet_Number_UnderBar( strLine ) :
+    strAlparbet_Number_UnderBar = string.letters + string.digits + '_'
+    strList = []
+    for OneWord in strLine :
+        if( OneWord in strAlparbet_Number_UnderBar ) :
+            strList.append( OneWord )
+    strTemp = ''.join( strList )
+    return strTemp
+
+
 def convert(filename):
 	tee.write("loading: %s " % filename)
 	wb=load_workbook(filename)
@@ -282,7 +293,8 @@ def convert(filename):
 	# year=d.year
 	# month=ws['D2'].value.split(" ")[0].replace("월","")
 	# day=ws['D2'].value.split(" ")[1].replace("일","")
-	date_start=datetime.strptime( str(datetime.now().year)+' '+ ws['D2'].value.split(" ")[0].replace(u"\uc6d4","")+' '+ str(int(ws['D2'].value.split(" ")[1].replace(u"\uc77c",""))), '%Y %m %d')+timedelta(-1)
+#	date_start=datetime.strptime( str(datetime.now().year)+' '+ ws['D2'].value.split(" ")[0].replace(u"\uc6d4","")+' '+ str(int(ws['D2'].value.split(" ")[1].replace(u"\uc77c",""))), '%Y %m %d')+timedelta(-1)
+	date_start=datetime.strptime( str(datetime.now().year)+Extract_Alparbet_Number_UnderBar(ws['D2'].value), "%Y%m%d")+timedelta(-1)
 	filename_date_start=date_start+timedelta(-1)
 	print "date_start", date_start, "filename_date_start", filename_date_start
 	filename_date_end=filename_date_start+timedelta(6)
