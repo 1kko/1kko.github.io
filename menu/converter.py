@@ -173,14 +173,21 @@ def data_merger(ws, Column, start, end, header=""):
 	# print "rx=", start, end
 	retval=""
 	header="\n["+header.replace("\n"," ")+"]"
-
+	print "merging..."
 	for i in range(start, end+1):
 		cell=Column+str(i)
-		# print "i=",cell
-		if ws[cell].value==None:
-			retval+="\n"
-		else:
-			retval+="\n"+ws[cell].value
+
+		try:
+			if ws[cell].value==None:
+				retval+="\n"
+			else:
+				print "pos", cell
+				# print "ws[cell].value", ws[cell].value
+				# print "retval", retval
+				retval+="\n"+ws[cell].value
+		except:
+			retval+="\n"+str(ws[cell].value)
+
 	
 	if len(retval)>1:
 		return header+retval
@@ -294,7 +301,26 @@ def convert(filename):
 	# month=ws['D2'].value.split(" ")[0].replace("월","")
 	# day=ws['D2'].value.split(" ")[1].replace("일","")
 #	date_start=datetime.strptime( str(datetime.now().year)+' '+ ws['D2'].value.split(" ")[0].replace(u"\uc6d4","")+' '+ str(int(ws['D2'].value.split(" ")[1].replace(u"\uc77c",""))), '%Y %m %d')+timedelta(-1)
-	date_start=datetime.strptime( str(datetime.now().year)+Extract_Alparbet_Number_UnderBar(ws['D2'].value), "%Y%m%d")+timedelta(-1)
+
+	pD_0=ws['D2'].value
+	# print "pD_0", pD_0
+	pD_1=pD_0.split(u'월',1)
+	pdMonth=pD_1[0]
+	print "Month", pdMonth
+
+	pD_2=Extract_Alparbet_Number_UnderBar(pD_1)
+	pdDay=pD_2
+	print "Day", pdDay
+	
+	pD_3=str(datetime.now().year)+"/"+pdMonth+"/"+pdDay
+	# print "pD_3", pD_3
+	pD_4=datetime.strptime(pD_3, "%Y/%m/%d")
+	print "pD_4", pD_4
+	pD_5=pD_4+timedelta(-1)
+	# print "pD_5", pD_5
+	date_start=pD_5
+
+	#date_start=datetime.strptime( str(datetime.now().year)+Extract_Alparbet_Number_UnderBar(ws['D2'].value.replace(u"월","/")), "%Y%m%d")+timedelta(-1)
 	filename_date_start=date_start+timedelta(-1)
 	print "date_start", date_start, "filename_date_start", filename_date_start
 	filename_date_end=filename_date_start+timedelta(6)
