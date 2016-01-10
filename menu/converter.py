@@ -25,6 +25,10 @@ class Tee(object):
         sys.stdout = self.stdout
         self.file.close()
     def write(self, data):
+    	try:
+    		data=str(data)
+    	except:
+    		pass
         self.file.write(data+"\n")
         self.stdout.write(data+"\n")
 
@@ -181,7 +185,7 @@ def data_merger(ws, Column, start, end, header=""):
 			if ws[cell].value==None:
 				retval+="\n"
 			else:
-				print "pos", cell
+				print ("pos: %s " % cell)
 				# print "ws[cell].value", ws[cell].value
 				# print "retval", retval
 				retval+="\n"+ws[cell].value
@@ -409,6 +413,9 @@ def convert(filename):
 if __name__ == '__main__':
 	# stdout = StringIO.StringIO()
 	# sys.stdout = stdout
+	reload(sys)
+	sys.setdefaultencoding('utf-8')
+	
 	if len(sys.argv)>=2:
 		filename=sys.argv[1]
 	else:
@@ -448,7 +455,10 @@ if __name__ == '__main__':
 				tee.write(str(git.status()))
 
 				title="[Ahnapp] Menu Updated Successfully"
-				body=tee.file.getvalue()
+				try:
+					body=tee.file.getvalue()
+				except UnicodeDecodeError:
+					body=""
 				# send_email(title,body)
 			else:
 				tee.write("nothing updated")
