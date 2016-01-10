@@ -419,7 +419,7 @@ if __name__ == '__main__':
 	# sys.stdout = stdout
 	reload(sys)
 	sys.setdefaultencoding('utf-8')
-	sendEmailFlag=False
+	sendEmailFlag=True
 	try:
 		commitFlag=False
 		tee=Tee()
