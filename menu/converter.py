@@ -17,20 +17,24 @@ import string
 # logging.basicConfig(level=logging.INFO)
 
 class Tee(object):
-    def __init__(self):
-        self.file = StringIO.StringIO()
-        self.stdout = sys.stdout
-        sys.stdout = self
-    def __del__(self):
-        sys.stdout = self.stdout
-        self.file.close()
-    def write(self, data):
-    	try:
-    		data=str(data)
-    	except:
-    		pass
-        self.file.write(data+"\n")
-        self.stdout.write(data+"\n")
+	def __init__(self):
+		self.file = StringIO.StringIO()
+		self.stdout = sys.stdout
+		sys.stdout = self
+	def __del__(self):
+		sys.stdout = self.stdout
+		self.file.close()
+	def write(self, data):
+		try:
+			data=str(data)
+		except:
+			pass
+
+		if data.find('\n') >= 0:
+			data.replace('\n','')
+		newline="\n"
+		self.file.write(data+newline)
+		self.stdout.write(data+newline)
 
 def Help(msg=""):
 	print "Converts ahnlab Menu to Outlook compativle csv"
@@ -177,7 +181,7 @@ def data_merger(ws, Column, start, end, header=""):
 	# print "rx=", start, end
 	retval=""
 	header="\n["+header.replace("\n"," ")+"]"
-	print "merging..."
+	# print "merging..."
 	for i in range(start, end+1):
 		cell=Column+str(i)
 
@@ -185,7 +189,7 @@ def data_merger(ws, Column, start, end, header=""):
 			if ws[cell].value==None:
 				retval+="\n"
 			else:
-				print ("pos: %s " % cell)
+				# print ("pos: %s " % cell)
 				# print "ws[cell].value", ws[cell].value
 				# print "retval", retval
 				retval+="\n"+ws[cell].value
@@ -200,13 +204,13 @@ def data_merger(ws, Column, start, end, header=""):
 
 
 def Extract_Alparbet_Number_UnderBar( strLine ) :
-    strAlparbet_Number_UnderBar = string.letters + string.digits + '_'
-    strList = []
-    for OneWord in strLine :
-        if( OneWord in strAlparbet_Number_UnderBar ) :
-            strList.append( OneWord )
-    strTemp = ''.join( strList )
-    return strTemp
+	strAlparbet_Number_UnderBar = string.letters + string.digits + '_'
+	strList = []
+	for OneWord in strLine :
+		if( OneWord in strAlparbet_Number_UnderBar ) :
+			strList.append( OneWord )
+	strTemp = ''.join( strList )
+	return strTemp
 
 
 def convert(filename):
@@ -309,24 +313,24 @@ def convert(filename):
 	pD_0=ws['D2'].value
 	# print "pD_0", pD_0
 	pD_1=pD_0.split(u'월',1)
-	pdMonth=pD_1[0]
-	print "Month", pdMonth
-
-	pD_2=Extract_Alparbet_Number_UnderBar(pD_1)
-	pdDay=pD_2
-	print "Day", pdDay
-	
+	pdMonth=pD_1[0].strip()
+	print ("Month: %s" % (pdMonth))
+	# pD_2=Extract_Alparbet_Number_UnderBar(pD_1)
+	pD_2=pD_1[1].split(u'일',1)
+	pdDay=pD_2[0].strip()
+	print "Day: %s" % pdDay
 	pD_3=str(datetime.now().year)+"/"+pdMonth+"/"+pdDay
-	# print "pD_3", pD_3
+	print ("pD_3: %s" % (pD_3))
 	pD_4=datetime.strptime(pD_3, "%Y/%m/%d")
-	print "pD_4", pD_4
+	print ("pD_4: %s" % (pD_4))
 	pD_5=pD_4+timedelta(-1)
-	# print "pD_5", pD_5
+	print ("pD_5: %s" % (pD_5))
 	date_start=pD_5
+	print ("date_start: %s" % (date_start))
 
 	#date_start=datetime.strptime( str(datetime.now().year)+Extract_Alparbet_Number_UnderBar(ws['D2'].value.replace(u"월","/")), "%Y%m%d")+timedelta(-1)
 	filename_date_start=date_start+timedelta(-1)
-	print "date_start", date_start, "filename_date_start", filename_date_start
+	print ("date_start: %s, filename_date_start: %s" % (date_start, filename_date_start))
 	filename_date_end=filename_date_start+timedelta(6)
 
 	outputfilename=str(filename_date_start.strftime('%Y%m%d'))+"-"+str(filename_date_end.strftime('%Y%m%d'))+".csv"
@@ -415,63 +419,63 @@ if __name__ == '__main__':
 	# sys.stdout = stdout
 	reload(sys)
 	sys.setdefaultencoding('utf-8')
-	
-	if len(sys.argv)>=2:
-		filename=sys.argv[1]
-	else:
-		sendEmailFlag=True
-		try:
-			commitFlag=False
-			tee=Tee()
+	sendEmailFlag=False
+	try:
+		commitFlag=False
+		tee=Tee()
 
-			git=sh.git.bake(_cwd='.')
-			# print git.status()
-			#### git stash, pull th
-			tee.write("Check for update.")
-			is_updated=git.pull()
-			if (is_updated==0):
-				pass
-			# git.stash("remove")
-			
-			tee.write("Fetching from Email")
+		git=sh.git.bake(_cwd='.')
+		# print git.status()
+		#### git stash, pull th
+		tee.write("Check for update.")
+		is_updated=git.pull()
+		if (is_updated==0):
+			pass
+		# git.stash("remove")
+		
+		tee.write("Fetching from Email")
+		if len(sys.argv)>=2:
+			attachments=[sys.argv[1]]
+		else:
 			attachments=set(fetch_attachments())
-			for filename in attachments:
-				try:
-					convertedFilename=convert(filename)
-					tee.write("New file found. Adding to repository: %s" % convertedFilename)
-					git.add(convertedFilename)
-					os.remove(filename)
-					commitFlag=True
-				except:
-					tee.write("File is already removed or not exists")
-					raise
+
+		for filename in attachments:
+			try:
+				convertedFilename=convert(filename)
+				tee.write("New file found. Adding to repository: %s" % convertedFilename)
+				git.add(convertedFilename)
+				os.remove(filename)
+				commitFlag=True
+			except:
+				tee.write("File is already removed or not exists")
+				raise
+		
+		if commitFlag==True:
+			tee.write ("Commiting changes")
+			git.commit(m='menu_update')
+			tee.write("Push to server")
+			git.push()
 			
-			if commitFlag==True:
-				tee.write ("Commiting changes")
-				git.commit(m='menu_update')
-				tee.write("Push to server")
-				git.push()
-				
-				tee.write(str(git.status()))
+			tee.write(str(git.status()))
 
-				title="[Ahnapp] Menu Updated Successfully"
-				try:
-					body=tee.file.getvalue()
-				except UnicodeDecodeError:
-					body=""
-				# send_email(title,body)
-			else:
-				tee.write("nothing updated")
-				# print tee.file.getvalue()
-				sendEmailFlag=False
-		except Exception as e:
-			title="[Ahnapp] Error: Something went wrong ;("
-			#body=tee.file.getvalue()+"\n"+str(e)
-			body=str(e)
-			raise
+			title="[Ahnapp] Menu Updated Successfully"
+			try:
+				body=tee.file.getvalue()
+			except UnicodeDecodeError:
+				body=""
+			# send_email(title,body)
+		else:
+			tee.write("nothing updated")
+			# print tee.file.getvalue()
+			sendEmailFlag=False
+	except Exception as e:
+		title="[Ahnapp] Error: Something went wrong ;("
+		#body=tee.file.getvalue()+"\n"+str(e)
+		body=str(e)
+		raise
 
-		finally:
-			if sendEmailFlag==True: 
-				send_email(title,body)
+	finally:
+		if sendEmailFlag==True: 
+			send_email(title,body)
 
 
