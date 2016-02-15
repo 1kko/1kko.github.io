@@ -319,6 +319,10 @@ http://jscompress.com/
 		{ url: 'js/ladder.js', expire: 168 },
 		{ url: 'js/app.js', expire: 1, unique: 1505281 }
 	);
+
+	Pace.on('done', function(){
+		console.log('pace clicking btn_add', $('#btn_add'));
+	});
 </script>
 
 
