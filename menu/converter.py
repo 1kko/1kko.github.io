@@ -16,6 +16,8 @@ import string
 
 # logging.basicConfig(level=logging.INFO)
 
+configFilePath=os.path.join(os.path.dirname(os.path.abspath(__file__)),"config.json")
+
 class Tee(object):
     def __init__(self):
         self.file = StringIO.StringIO()
@@ -52,7 +54,7 @@ def send_email(title, body):
     SUBJECT = title
     TEXT = body
 
-    with open('./config.json') as fd:
+    with open(configFilePath) as fd:
         logininfo = json.load(fd)
 
     GMAIL_ID = logininfo['GMAIL_ID']
@@ -84,7 +86,7 @@ def fetch_attachments():
     After = TODAY + relativedelta(days=-5)
     # After = TODAY
 
-    with open('./config.json') as fd:
+    with open(configFilePath) as fd:
         logininfo = json.load(fd)
 
     GMAIL_ID = logininfo['GMAIL_ID']
