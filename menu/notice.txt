@@ -1,6 +1,2 @@
-<center><a href="https://www.checkmal.com">
-<h4>아직도 백신만 믿고 안전하냐?</h4>
-<h6>깔아봐 앱체ㅋㅋㅋ</h6></a>
+<center>.
 </center>
-<p hidden>못지킬 약속은 하질 말던가. 정 어려우면 미리 연락이라도 하던지... 1달동안 기다렸던 내가 바보였소</p>
-
